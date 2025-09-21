@@ -4,7 +4,8 @@ import { getUserToken } from "@/lib/server-utils";
 import { IOrder} from "@/interface/allorders.interface";
 import {
    addressFormSchema,
-  addressFormType
+  addressFormType,
+  addressfromStateType
 } from "@/schema/address.schema";
 
 export async function getAllOrders() {
@@ -40,7 +41,7 @@ export async function getAllOrders() {
 export async function handlePayment(
   formState: addressFormType,
   formData: FormData
-) {
+): Promise <addressfromStateType> {
   const shippingAddress = {
     details: formData.get("details"),
     phone: formData.get("phone"),
@@ -61,7 +62,7 @@ export async function handlePayment(
       error: parseData.error?.flatten().fieldErrors,
       message: null,
       callbackUrl: "/cart",
-      paymentMethod,
+      paymentMethod: paymentMethod as string,
     };
   }
 
@@ -91,7 +92,7 @@ export async function handlePayment(
         error: {},
         message: data.message || "Failed to place order",
         callbackUrl: "/cart",
-        paymentMethod,
+        paymentMethod: paymentMethod as string,
       };
     }
 
@@ -106,7 +107,7 @@ export async function handlePayment(
     return {
       success: false,
       error: {},
-      message: error || "Failed to place order",
+      message:( error as string) || "Failed to place order",
     };
   }
 }

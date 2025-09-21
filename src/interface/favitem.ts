@@ -1,5 +1,5 @@
-import { Brand } from "./brand";
-import { Category } from "./categories";
+import { IBrand } from "./brand.interface";
+import { ICategory } from "./category.interface";
 
 export interface FavItem {
     _id: string;
@@ -14,8 +14,8 @@ export interface FavItem {
   sold: number;
   ratingsAverage: number;
   ratingsQuantity: number;
-  brand: Brand;
-  category: Category;
+  brand: IBrand;
+  category: ICategory;
 
   createdAt: string;
   updatedAt: string;

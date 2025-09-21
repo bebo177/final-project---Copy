@@ -21,13 +21,27 @@ import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 
 import { useActionState, useEffect } from "react"
-import { addressFormSchema, addressformState, addressFormType } from "@/schema/address.schema"
+import { addressFormSchema, addressformState, addressFormType, addressfromStateType } from "@/schema/address.schema"
 import { handlePayment } from "@/services/order.service"
 import { useCart } from "@/context/CartContext"
+const handlePaymentWrapper = async (
+  state: addressfromStateType,
+  formData: FormData
+) => {
+  const formState: addressFormType = {
+    cartId: formData.get("cartId") as string,
+    details: formData.get("details") as string,
+    city: formData.get("city") as string,
+    phone: formData.get("phone") as string,
+    paymentMethod: (formData.get("paymentMethod") as  "cash" | "card") || "cash",
+  };
+
+  return await handlePayment(formState, formData);
+};
 
 export default function CheckoutPagePage() {
   const {cartDetails, setCartDetails} = useCart()
-  const [action, formAction]= useActionState(handlePayment,addressformState);
+  const [action, formAction]= useActionState(handlePaymentWrapper,addressformState);
 const router = useRouter()
 const form = useForm<addressFormType>({
   resolver: zodResolver(addressFormSchema),

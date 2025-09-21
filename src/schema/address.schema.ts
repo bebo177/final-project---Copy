@@ -1,4 +1,3 @@
-
 import * as z from "zod";
 
 export const addressFormSchema = z.object({
@@ -37,21 +36,23 @@ export const addressformState = {
      details:[],
       city:[],
       phone:[],
-      paymentMethod:[],
   },
   message:null,
   callbackUrl: "",
+  paymentMethod:"",
+
 };
 
 export type addressfromStateType= {
     success:boolean;
     error:{
-      cartId?:[];
+      cartId?:string[];
         details?:string[];
         city?:string[];
         phone?:string[];
-        paymentMethod?:[];
+
     }
     message:string | null;
     callbackUrl?: string;
+    paymentMethod?:string;
 }
